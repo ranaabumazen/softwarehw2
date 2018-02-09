@@ -1,12 +1,38 @@
 <project default="compile">
-  <property name="src.java.dir" location="./src/softwarehw2"/>
-     <property name="result.dir" location="./target"/>
-  <property name="result.javaclasses.dir" location="${result.dir}/classes"/>
-  
-  
-  <target name="compile">
-                  <mkdir dir="${result.javaclasses.dir}"/>
-                  <javac srcdir="${src.java.dir}" destdir="${result.javaclasses.dir}" debug="true" includeantruntime="false">
-                                                                                                   </javac>
-                                                                                                   </target>
-                                                                                                   </project>
+<property name="src.java.dir" location="./src/softwarehw2"/>
+<property name="result.dir" location="./target"/>
+<property name="result.javaclasses.dir" location="${result.dir}/classes"/>
+<path id="Libraries">
+<pathelement location="./Referenced Libraries/junit-4.12.jar"/>
+<!--matcher-->
+<pathelement location="./Referenced Libraries /hamcrest-core-1.3.jar"/>
+
+<pathelement location="./Referenced Libraries/selenium-server-standalone-3.9.1.jar"/>
+</path>
+	
+<target name="compile">
+<mkdir dir="${result.javaclasses.dir}"/>
+<javac srcdir="${src.java.dir}" destdir="${result.javaclasses.dir}" debug="true"
+includeantruntime="false">
+<classpath>
+<path refid="Libraries"/>
+<pathelement location="${result.javaclasses.dir}"/>
+</classpath>
+</javac>
+</target>
+<target name="test" depends="compile">
+
+<junit printsummary="true" haltonfailure="true" fork="true">
+<classpath>
+<path refid="Referenced Libraries"></path>
+<pathelement location="${result.javaclasses.dir}"/>
+</classpath>
+<formatter type="brief" usefile="false"/>
+<batchtest >
+<fileset dir="${result.javaclasses.dir}" >
+<include name="**/*​Junit​.class"/>
+</fileset>
+</batchtest>
+</junit>
+</target>
+</project>
